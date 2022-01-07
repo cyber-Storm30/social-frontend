@@ -8,9 +8,12 @@ export const useStyles = makeStyles({
     justifyContent: "space-evenly",
     height: pixToVh(60),
     boxShadow: " 0px 15px 15px 11px rgba(0,0,0,0.055)",
+    backgroundColor: "white",
     paddingLeft: pixToRem(50),
     paddingRight: pixToRem(50),
-    // backgroundColor: "red",
+    position: "sticky",
+    top: 0,
+    zIndex: 999,
   },
   title: {
     fontSize: pixToRem(40),

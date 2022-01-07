@@ -51,6 +51,7 @@ export const useStyles = makeStyles({
   },
   postImage: {
     width: "100%",
+    height: pixToVh(600),
     objectFit: "cover",
     outline: "1px solid #cfcfcf",
     borderRadius: "7px",
@@ -105,6 +106,7 @@ export const useStyles = makeStyles({
   commentSection: {
     display: "flex",
     width: "100%",
+    gap: pixToRem(10),
   },
   commentIcon: {
     cursor: "pointer",
@@ -116,7 +118,7 @@ export const useStyles = makeStyles({
     border: "1px solid #cccccc",
     padding: `0 ${pixToRem(10)}`,
     borderRadius: "25px",
-    gap: pixToRem(20),
+    gap: pixToRem(10),
   },
   input: {
     width: "100%",

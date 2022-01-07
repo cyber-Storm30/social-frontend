@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useStyles } from "./Styles";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Avatar from "@mui/material/Avatar";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -10,7 +10,7 @@ import IosShareOutlinedIcon from "@mui/icons-material/IosShareOutlined";
 import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import SentimentSatisfiedAltOutlinedIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 
-const Post = ({ title, subtitle, desc, image, likes, comments }) => {
+const Post = ({ title, subtitle, desc, image, likes, comments, time }) => {
   const classes = useStyles();
   const [showComment, setShowComment] = useState(false);
   const handleCommentShow = () => {
@@ -20,18 +20,18 @@ const Post = ({ title, subtitle, desc, image, likes, comments }) => {
     <div className={classes.post}>
       <div className={classes.top}>
         <div className={classes.topLeft}>
-          <AccountCircleIcon className={classes.profilePic} />
+          <Avatar className={classes.profilePic} />
           <div className={classes.userDetails}>
             <p className={classes.title}>{title}</p>
             <p className={classes.subtitle}>{subtitle}</p>
-            <p className={classes.time}>16h. Edited</p>
+            <p className={classes.time}>{time}</p>
           </div>
         </div>
         <MoreHorizIcon />
       </div>
       <div className={classes.body}>
         <p className={classes.desc}>{desc}</p>
-        <img src={image} className={classes.postImage} />
+        {image && <img src={image} className={classes.postImage} />}
         <div className={classes.likesAnComment}>
           <div className={classes.likes}>
             <ThumbUpIcon color="primary" className={classes.likeIcon} />
@@ -61,7 +61,7 @@ const Post = ({ title, subtitle, desc, image, likes, comments }) => {
         </div>
         {showComment && (
           <div className={classes.commentSection}>
-            <AccountCircleIcon className={classes.profilePic} />
+            <Avatar className={classes.profilePic} />
             <div className={classes.imputWrapper}>
               <input className={classes.input} placeholder="Add a comment" />
               <SentimentSatisfiedAltOutlinedIcon

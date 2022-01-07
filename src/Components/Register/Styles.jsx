@@ -1,0 +1,86 @@
+import { makeStyles } from "@mui/styles";
+import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+
+export const useStyles = makeStyles({
+  register: {
+    display: "flex",
+    flexDirection: "column",
+    width: pixToVw(380),
+    padding: `${pixToRem(30)} ${pixToRem(20)}`,
+    backgroundColor: "white",
+    borderRadius: pixToRem(8),
+    gap: pixToRem(15),
+  },
+  inputWrapper: {
+    width: "100%",
+    padding: `0 ${pixToRem(10)}`,
+  },
+  input: {
+    width: "95%",
+    height: pixToVh(30),
+    padding: pixToRem(5),
+    border: "1px solid gray",
+    borderRadius: pixToRem(5),
+    outline: "none",
+    "&:focus": {
+      border: "2px solid gray",
+    },
+  },
+  inputText: {
+    fontSize: pixToRem(14),
+    fontWeight: "300",
+    fontFamily: "'Poppins', sans-serif",
+    color: "#636363",
+  },
+  text: {
+    width: "100%",
+    fontSize: pixToRem(11),
+    fontWeight: "400",
+    fontFamily: "'Poppins', sans-serif",
+    textAlign: "center",
+    color: "#636363",
+  },
+  buttonWrapper: {
+    padding: `${pixToRem(0)} ${pixToRem(10)}`,
+  },
+  button: {
+    width: "100%",
+    height: pixToVh(50),
+    backgroundColor: "#0072b1",
+    border: "none",
+    outline: "none",
+    color: "white",
+    fontSize: pixToRem(18),
+    fontWeight: "600",
+    borderRadius: pixToRem(25),
+    cursor: "pointer",
+  },
+  image: {
+    width: pixToVw(30),
+    height: pixToVh(20),
+  },
+  googleButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: pixToRem(5),
+    width: "100%",
+    height: pixToVh(50),
+    border: "1px solid #0072b1",
+    outline: "none",
+    color: "#0072b1",
+    fontSize: pixToRem(18),
+    fontWeight: "600",
+    borderRadius: pixToRem(25),
+    cursor: "pointer",
+  },
+  signText: {
+    display: "flex",
+    justifyContent: "center",
+    gap: pixToRem(5),
+    fontSize: pixToRem(18),
+    fontWeight: "300",
+    fontFamily: "'Poppins', sans-serif",
+    textAlign: "center",
+  },
+});
