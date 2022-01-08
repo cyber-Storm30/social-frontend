@@ -14,13 +14,13 @@ const UserModal = ({ open }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user.newUser);
+  const user = useSelector((state) => state.auth.user);
   const [close, setClose] = useState(open);
   const [desc, setDesc] = useState("");
 
   const handleLogout = () => {
+    dispatch(closeModal(close));
     dispatch(logout());
-    window.location.reload();
   };
 
   const handleClose = () => {
@@ -57,9 +57,11 @@ const UserModal = ({ open }) => {
           <div className={classes.top}>
             <div className={classes.wrapper}>
               <Avatar />
-              <p
-                className={classes.title}
-              >{`${user.firstname} ${user.lastname}`}</p>
+              {user ? (
+                <p
+                  className={classes.title}
+                >{`${user.firstname} ${user.lastname}`}</p>
+              ) : null}
             </div>
             <button className={classes.button}>view your profile</button>
           </div>

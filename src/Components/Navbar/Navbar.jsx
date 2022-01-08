@@ -60,7 +60,7 @@ const Navbar = () => {
             }}
           />
           {user ? (
-            <p className={classes.iconText}>{user.newUser.firstname}</p>
+            <p className={classes.iconText}>{user.firstname}</p>
           ) : (
             <p className={classes.iconText}>Login</p>
           )}

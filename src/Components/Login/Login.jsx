@@ -22,7 +22,7 @@ const Login = () => {
   const handleSignIn = () => {
     try {
       dispatch(loginStart({ email, password }));
-      if (user) navigate("/");
+      navigate("/");
     } catch (err) {
       console.log(err);
     }

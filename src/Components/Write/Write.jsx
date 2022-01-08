@@ -14,6 +14,7 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import NotesIcon from "@mui/icons-material/Notes";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../redux/Actions/modal";
+import axios from "axios";
 
 const Write = ({ open }) => {
   const classes = useStyles();
@@ -28,9 +29,20 @@ const Write = ({ open }) => {
     dispatch(closeModal(close));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (desc) {
-      window.alert("Clicked");
+      try {
+        await axios.post("http://localhost:5000/api/posts/createpost", {
+          username: `${user.firstname} ${user.lastname}`,
+          userId: user.newUser._id,
+          body: desc,
+        });
+        dispatch(closeModal(close));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      window.alert("");
     }
   };
 
@@ -65,7 +77,7 @@ const Write = ({ open }) => {
           <Divider />
           <div className={classes.userDetails}>
             <Avatar />
-            <p>{`${user.newUser.firstname} ${user.newUser.lastname}`}</p>
+            <p>{`${user.firstname} ${user.lastname}`}</p>
           </div>
           <textarea
             className={classes.input}

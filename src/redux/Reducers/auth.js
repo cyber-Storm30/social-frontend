@@ -25,7 +25,7 @@ export const authReducer = (state = initialstate, action) => {
     }
     case LOGIN_SUCCESS: {
       return {
-        user: action.payload,
+        user: action.payload.newUser,
         isFetching: false,
         error: false,
       };
@@ -59,11 +59,7 @@ export const authReducer = (state = initialstate, action) => {
       };
     }
     case SIGNUP_FAILURE: {
-      return {
-        user: null,
-        isFetching: false,
-        error: true,
-      };
+      return initialstate;
     }
     default:
       return state;

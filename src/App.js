@@ -9,12 +9,13 @@ import { useSelector } from "react-redux";
 import ModalManager from "./Utils/ModalManager";
 
 function App() {
+  const user = useSelector((state) => state.auth.user);
   return (
     <div className="App">
       <ModalManager />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/" element={user ? <Home /> : <Register />} />
+        <Route path="/feed" element={user ? <Feed /> : <Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
