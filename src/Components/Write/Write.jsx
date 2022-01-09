@@ -15,37 +15,84 @@ import NotesIcon from "@mui/icons-material/Notes";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../redux/Actions/modal";
 import axios from "axios";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase/index";
 
 const Write = ({ open }) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [close, setClose] = useState(open);
   const [desc, setDesc] = useState("");
+  const [file, setFile] = useState(null);
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setClose(false);
     dispatch(closeModal(close));
   };
 
   const handleSubmit = async () => {
-    if (desc) {
-      try {
-        await axios.post("http://localhost:5000/api/posts/createpost", {
-          username: `${user.firstname} ${user.lastname}`,
-          userId: user.newUser._id,
-          body: desc,
-        });
-        dispatch(closeModal(close));
-      } catch (err) {
-        console.log(err);
-      }
+    const newPost = {
+      username: `${user.firstname} ${user.lastname}`,
+      userId: user._id,
+      body: desc,
+    };
+    if (file) {
+      const fileName = new Date().getTime() + file.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      dispatch(closeModal(close));
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            try {
+              axios.post("http://localhost:5000/api/posts/createpost", {
+                username: `${user.firstname} ${user.lastname}`,
+                userId: user._id,
+                body: desc,
+                image: downloadURL,
+              });
+              setFile("");
+              setDesc("");
+            } catch (err) {
+              window.alert("Unable to upload try again !!!");
+            }
+          });
+        }
+      );
     } else {
-      window.alert("");
+      dispatch(closeModal(close));
+      try {
+        await axios.post("http://localhost:5000/api/posts/createpost", newPost);
+      } catch (err) {
+        window.alert("Unable to upload try again !!!");
+      }
     }
   };
-
   const style = {
     display: "flex",
     flexDirection: "column",
@@ -96,7 +143,14 @@ const Write = ({ open }) => {
                   </label>
                 </IconButton>
               </LightTooltip>
-              <input type="file" id="photoInput" style={{ display: "none" }} />
+              <input
+                type="file"
+                id="photoInput"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                }}
+              />
               <LightTooltip title="Add a video" placement="top">
                 <IconButton>
                   <label htmlFor="videoInput">

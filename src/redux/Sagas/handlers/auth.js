@@ -21,7 +21,8 @@ export function* handleSignup(action) {
   try {
     const response = yield call(requestSignUp, action.payload);
     yield put(signupSuccess(response.data));
-  } catch {
+  } catch (err) {
+    console.log(err);
     yield put(signupFailure());
   }
 }

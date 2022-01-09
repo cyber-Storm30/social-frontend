@@ -63,7 +63,15 @@ const UserModal = ({ open }) => {
                 >{`${user.firstname} ${user.lastname}`}</p>
               ) : null}
             </div>
-            <button className={classes.button}>view your profile</button>
+            <button
+              className={classes.button}
+              onClick={() => {
+                dispatch(closeModal(close));
+                navigate("/profile");
+              }}
+            >
+              view your profile
+            </button>
           </div>
 
           <Divider />

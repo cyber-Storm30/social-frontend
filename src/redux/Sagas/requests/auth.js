@@ -17,10 +17,3 @@ export const requestSignUp = ({ email, password, firstname, lastname }) => {
   });
   return response;
 };
-
-// export const requestLogin = ({ email, password }) => {
-//   const res = axios.request({
-//     method: "post",
-//     url: "igheiwg",
-//   });
-// };

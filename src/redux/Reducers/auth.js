@@ -12,6 +12,7 @@ const initialstate = {
   user: null,
   isFetching: false,
   error: false,
+  token: null,
 };
 
 export const authReducer = (state = initialstate, action) => {
@@ -21,6 +22,7 @@ export const authReducer = (state = initialstate, action) => {
         user: null,
         isFetching: true,
         error: false,
+        token: null,
       };
     }
     case LOGIN_SUCCESS: {
@@ -28,6 +30,7 @@ export const authReducer = (state = initialstate, action) => {
         user: action.payload.newUser,
         isFetching: false,
         error: false,
+        token: action.payload.accessToken,
       };
     }
     case LOGIN_FAILURE: {
@@ -35,6 +38,7 @@ export const authReducer = (state = initialstate, action) => {
         user: null,
         isFetching: false,
         error: true,
+        token: null,
       };
     }
     case LOGOUT: {
@@ -42,6 +46,7 @@ export const authReducer = (state = initialstate, action) => {
         user: null,
         isFetching: false,
         error: false,
+        token: null,
       };
     }
     case SIGNUP_START: {
@@ -49,17 +54,25 @@ export const authReducer = (state = initialstate, action) => {
         user: null,
         isFetching: true,
         error: false,
+        token: null,
       };
     }
     case SIGNUP_SUCCESS: {
+      console.log(action.payload);
       return {
         user: action.payload,
         isFetching: false,
         error: false,
+        token: null,
       };
     }
     case SIGNUP_FAILURE: {
-      return initialstate;
+      return {
+        user: null,
+        isFetching: false,
+        error: true,
+        token: null,
+      };
     }
     default:
       return state;

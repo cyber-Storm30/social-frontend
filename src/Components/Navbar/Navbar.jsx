@@ -21,7 +21,14 @@ const Navbar = () => {
   return (
     <div className={classes.navbar}>
       <div className={classes.navbarLeft}>
-        <h1 className={classes.title}>social</h1>
+        <h1
+          className={classes.title}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          social
+        </h1>
         <div className={classes.search}>
           <SearchIcon className={classes.searchIcon} />
           <input className={classes.input} type="text" placeholder="Search " />

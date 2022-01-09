@@ -103,18 +103,23 @@ export const useStyles = makeStyles({
   buttonText: {
     fontSize: pixToRem(15),
   },
+  commentSectionWrapper: {
+    display: "flex",
+    flexDirection: "column",
+  },
   commentSection: {
     display: "flex",
     width: "100%",
     gap: pixToRem(10),
   },
+
   commentIcon: {
     cursor: "pointer",
   },
   imputWrapper: {
     display: "flex",
     alignItems: "center",
-    width: "100%",
+
     border: "1px solid #cccccc",
     padding: `0 ${pixToRem(10)}`,
     borderRadius: "25px",
@@ -122,7 +127,22 @@ export const useStyles = makeStyles({
   },
   input: {
     width: "100%",
+    height: pixToVh(40),
     outline: "none",
     border: "none",
+  },
+  button: {
+    width: pixToVw(55),
+    height: pixToVh(30),
+    outline: "none",
+    border: "none",
+    backgroundColor: "#0072b1",
+    borderRadius: pixToRem(25),
+    color: "white",
+    fontWeight: "500",
+    cursor: "pointer",
+  },
+  disButton: {
+    display: "none",
   },
 });

@@ -24,10 +24,10 @@ const Home = () => {
               <Post
                 title={post.username}
                 subtitle={post.title}
-                time={post.createdAt}
+                time={new Date(post.createdAt).toDateString()}
                 desc={post.body}
                 likes={post.likes}
-                comments={post.comments.length}
+                comments={post.comments}
                 image={post.image}
                 postId={post._id}
               />

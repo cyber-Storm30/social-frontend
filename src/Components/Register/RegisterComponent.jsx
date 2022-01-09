@@ -27,14 +27,7 @@ const RegisterComponent = () => {
 
   const handleRegister = () => {
     dispatch(signupStart({ email, password, firstname, lastname }));
-    if (user) {
-      navigate("/");
-    }
-    console.log("not");
-    setEmail("");
-    setPassword("");
-    setFirstName("");
-    setLastName("");
+    navigate("/login");
   };
 
   return (

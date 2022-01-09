@@ -8,10 +8,6 @@ const ModalManager = () => {
   const modalType = useSelector((state) => state.modal.modalType);
   const open = useSelector((state) => state.modal.modal);
 
-  useEffect(() => {
-    console.log(modalType);
-  }, [modalType]);
-
   let Modal = null;
 
   switch (modalType) {

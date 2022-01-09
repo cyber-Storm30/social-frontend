@@ -11,6 +11,8 @@ import IosShareOutlinedIcon from "@mui/icons-material/IosShareOutlined";
 import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import SentimentSatisfiedAltOutlinedIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import axios from "axios";
+import Comment from "../Comment/Comment";
+import { pixToRem } from "../../Utils/pixToRem";
 
 const Post = ({
   title,
@@ -23,15 +25,17 @@ const Post = ({
   postId,
 }) => {
   const classes = useStyles();
-  const [showComment, setShowComment] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const [showComment, setShowComment] = useState(false);
+  const [comment, setComment] = useState();
+  const [localComments, setLocalComments] = useState([]);
+  const [localComment, setLocalComment] = useState("");
   const [like, setLike] = useState(likes.length);
   const [isLiked, setIsLiked] = useState(false);
 
   const handleCommentShow = () => {
     setShowComment(!showComment);
   };
-  console.log(likes);
 
   useEffect(() => {
     setIsLiked(likes.includes(user._id));
@@ -48,7 +52,18 @@ const Post = ({
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
-
+  const handleSubmit = async () => {
+    setLocalComments((prevState) => [...prevState, localComment]);
+    try {
+      await axios.put(`http://localhost:5000/api/posts/${postId}/comment`, {
+        username: `${user.firstname} ${user.lastname}`,
+        comment,
+      });
+      setComment("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className={classes.post}>
       <div className={classes.top}>
@@ -70,7 +85,9 @@ const Post = ({
             <ThumbUpIcon color="primary" className={classes.likeIcon} />
             <p className={classes.likesText}>{like}</p>
           </div>
-          <p className={classes.likesText}>{comments} comments</p>
+          <p className={classes.likesText}>
+            {comments.length + localComments.length} comments
+          </p>
         </div>
       </div>
       <div className={classes.bottom}>
@@ -97,14 +114,57 @@ const Post = ({
           </div>
         </div>
         {showComment && (
-          <div className={classes.commentSection}>
-            <Avatar className={classes.profilePic} />
-            <div className={classes.imputWrapper}>
-              <input className={classes.input} placeholder="Add a comment" />
-              <SentimentSatisfiedAltOutlinedIcon
-                className={classes.commentIcon}
-              />
-              <CollectionsOutlinedIcon className={classes.commentIcon} />
+          <div className={classes.commentSectionWrapper}>
+            <div className={classes.commentSection}>
+              <Avatar className={classes.profilePic} />
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  flexDirection: "column",
+                  gap: pixToRem(10),
+                }}
+              >
+                <div className={classes.imputWrapper}>
+                  <input
+                    className={classes.input}
+                    placeholder="Add a comment"
+                    onChange={(e) => {
+                      setLocalComment(e.target.value);
+                      setComment(e.target.value);
+                    }}
+                  />
+                  <SentimentSatisfiedAltOutlinedIcon
+                    className={classes.commentIcon}
+                  />
+                  <CollectionsOutlinedIcon className={classes.commentIcon} />
+                </div>
+                <button
+                  className={
+                    comment
+                      ? classes.button
+                      : classes.button + ` ${classes.disButton}`
+                  }
+                  onClick={handleSubmit}
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+            <div>
+              {localComments?.map((lcom) => (
+                <Comment
+                  username={`${user.firstname} ${user.lastname}`}
+                  comment={lcom}
+                />
+              ))}
+            </div>
+            <div>
+              {comments
+                ?.map((com) => (
+                  <Comment username={com.username} comment={com.comment} />
+                ))
+                .reverse()}
             </div>
           </div>
         )}
