@@ -13,6 +13,8 @@ import SentimentSatisfiedAltOutlinedIcon from "@mui/icons-material/SentimentSati
 import axios from "axios";
 import Comment from "../Comment/Comment";
 import { pixToRem } from "../../Utils/pixToRem";
+import DoneIcon from "@mui/icons-material/Done";
+import { Divider, IconButton } from "@mui/material";
 
 const Post = ({
   title,
@@ -23,6 +25,7 @@ const Post = ({
   time,
   likes,
   postId,
+  postUserId,
 }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.user);
@@ -31,7 +34,12 @@ const Post = ({
   const [localComments, setLocalComments] = useState([]);
   const [localComment, setLocalComment] = useState("");
   const [like, setLike] = useState(likes.length);
+  const [followings, setFollowings] = useState();
+  const [isfollowed, setIsFollowed] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.user._id);
+  const [updatedUser, setUpdatedUser] = useState();
 
   const handleCommentShow = () => {
     setShowComment(!showComment);
@@ -40,6 +48,26 @@ const Post = ({
   useEffect(() => {
     setIsLiked(likes.includes(user._id));
   }, [user._id]);
+
+  useEffect(() => {
+    setIsFollowed(followings?.includes(postUserId));
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/user/${userId}`,
+          { headers: { token: `Bearer ${token}` } }
+        );
+        setUpdatedUser(res.data);
+        setFollowings(res.data.followings);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, []);
 
   const handleLike = async () => {
     try {
@@ -52,6 +80,7 @@ const Post = ({
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
   const handleSubmit = async () => {
     setLocalComments((prevState) => [...prevState, localComment]);
     try {
@@ -64,8 +93,15 @@ const Post = ({
       console.log(err);
     }
   };
+
   return (
     <div className={classes.post}>
+      <div style={{ width: "100%", display: "grid", placeItems: "flex-end" }}>
+        <IconButton>
+          <MoreHorizIcon style={{ cursor: "pointer" }} />
+        </IconButton>
+      </div>
+      <Divider />
       <div className={classes.top}>
         <div className={classes.topLeft}>
           <Avatar className={classes.profilePic} />
@@ -75,7 +111,18 @@ const Post = ({
             <p className={classes.time}>{time}</p>
           </div>
         </div>
-        <MoreHorizIcon />
+        {postUserId != user._id && (
+          <div className={classes.topRight}>
+            {!isfollowed ? (
+              <button className={classes.followButton}>+ Follow</button>
+            ) : (
+              <button className={classes.unfollowButton}>
+                <DoneIcon style={{ size: `${pixToRem(14)}!important` }} />
+                Following
+              </button>
+            )}
+          </div>
+        )}
       </div>
       <div className={classes.body}>
         <p className={classes.desc}>{desc}</p>

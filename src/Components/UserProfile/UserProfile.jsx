@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStyles } from "./Styles";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import CoverPic from "../../Assets/table.jpg";
-import ProfilePic from "../../Assets/1.jpg";
+import { Avatar } from "@mui/material";
+import { pixToRem } from "../../Utils/pixToRem";
 
-const UserProfile = ({ user, followers, updatedUser }) => {
+const UserProfile = ({ user, followers, updatedUser, followings }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.userprofile}>
       <div className={classes.editWrapper}>
@@ -16,12 +18,12 @@ const UserProfile = ({ user, followers, updatedUser }) => {
       </div>
       <div className={classes.top}>
         <img
-          src={CoverPic}
+          src={!updatedUser?.coverpic ? CoverPic : updatedUser.coverpic}
           alt="background"
           className={classes.backgroundImage}
         />
         <div className={classes.profilePicWrapper}>
-          <img src={ProfilePic} className={classes.profilepic} />
+          <Avatar src={updatedUser?.image} className={classes.profilepic} />
         </div>
       </div>
       <div className={classes.bottom}>
@@ -30,7 +32,10 @@ const UserProfile = ({ user, followers, updatedUser }) => {
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laborum
           neque ipsa repellendus error dignissimos distinctio inventore dolores
         </p>
-        <p className={classes.followers}>{followers?.length} followers</p>
+        <div style={{ display: "flex", gap: pixToRem(25) }}>
+          <p className={classes.followers}>{followers?.length} followers</p>
+          <p className={classes.followers}>{followings?.length} followings</p>
+        </div>
       </div>
     </div>
   );

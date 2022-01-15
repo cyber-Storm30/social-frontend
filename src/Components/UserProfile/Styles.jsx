@@ -3,7 +3,7 @@ import { pixToRem, pixToVw, pixToVh } from "../../Utils/pixToRem";
 
 export const useStyles = makeStyles({
   userprofile: {
-    width: pixToVw(800),
+    width: pixToVw(1000),
     position: "relative",
     borderRadius: pixToRem(10),
     backgroundColor: "#FFFFFF",
@@ -18,10 +18,11 @@ export const useStyles = makeStyles({
     objectFit: "cover",
     objectPosition: "middle",
     borderRadius: "10px 10px 0 0",
+    cursor: "pointer",
   },
   editWrapper: {
     position: "absolute",
-    zIndex: 999,
+    zIndex: 1,
     top: pixToVh(20),
     right: pixToVw(20),
     cursor: "pointer",
@@ -34,16 +35,16 @@ export const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: pixToRem(150),
+    top: pixToRem(170),
     left: pixToRem(40),
-    width: pixToVw(160),
-    height: pixToVh(160),
+    width: pixToVw(130),
+    height: pixToVh(130),
     borderRadius: "50%",
     border: `${pixToRem(4)} solid white`,
   },
   profilepic: {
-    width: pixToVw(160),
-    height: pixToVh(160),
+    width: pixToVw(130) + "!important",
+    height: pixToVh(130) + "!important",
     borderRadius: "50%",
     objectFit: "cover",
     objectPosition: "top",

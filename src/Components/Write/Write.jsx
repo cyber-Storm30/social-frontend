@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ClearIcon from "@mui/icons-material/Clear";
-import { pixToRem, pixToVw } from "../../Utils/pixToRem";
+import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
@@ -42,7 +42,7 @@ const Write = ({ open }) => {
       userId: user._id,
       body: desc,
     };
-    if (file) {
+    if (file && desc) {
       const fileName = new Date().getTime() + file.name;
       const storage = getStorage(app);
       const storageRef = ref(storage, fileName);
@@ -69,6 +69,7 @@ const Write = ({ open }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log(downloadURL);
             try {
               axios.post("http://localhost:5000/api/posts/createpost", {
                 username: `${user.firstname} ${user.lastname}`,
@@ -97,10 +98,9 @@ const Write = ({ open }) => {
     display: "flex",
     flexDirection: "column",
     gap: pixToRem(10),
-    position: "absolute",
-    top: "20%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: "sticky",
+    top: pixToVh(70),
+    left: pixToVw(700),
     width: pixToVw(500),
     bgcolor: "background.paper",
     border: "none",
@@ -131,6 +131,7 @@ const Write = ({ open }) => {
             placeholder="Start writing your post"
             onChange={(e) => setDesc(e.target.value)}
           />
+          {file && <img src={URL.createObjectURL(file)} />}
           <div className={classes.bottom}>
             <div className={classes.icons}>
               <LightTooltip title="Add a photo" placement="top">

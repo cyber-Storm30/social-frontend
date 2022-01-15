@@ -35,7 +35,12 @@ const Navbar = () => {
         </div>
       </div>
       <div className={classes.navbarRight}>
-        <div className={classes.iconWrapper}>
+        <div
+          className={classes.iconWrapper}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <HomeIcon className={classes.icons} />
           <p className={classes.iconText}>Home</p>
         </div>

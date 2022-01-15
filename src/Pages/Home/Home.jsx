@@ -12,7 +12,7 @@ const Home = () => {
   const posts = useSelector((state) => state.posts.posts);
   useEffect(() => {
     dispatch(fetchPost());
-  }, []);
+  }, [posts]);
   return (
     <div className={classes.home}>
       <Navbar />
@@ -30,6 +30,7 @@ const Home = () => {
                 comments={post.comments}
                 image={post.image}
                 postId={post._id}
+                postUserId={post.userId}
               />
             ))
             .reverse()}
