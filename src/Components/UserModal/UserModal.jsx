@@ -67,7 +67,7 @@ const UserModal = ({ open }) => {
               className={classes.button}
               onClick={() => {
                 dispatch(closeModal(close));
-                navigate("/profile");
+                navigate(`/profile/${user._id}`);
               }}
             >
               view your profile

@@ -69,6 +69,7 @@ export const useStyles = makeStyles({
     fontSize: pixToRem(14),
     fontWeight: "600",
     fontFamily: "'Poppins', sans-serif",
+    cursor: "pointer",
   },
   subtitle: {
     fontSize: pixToRem(12),

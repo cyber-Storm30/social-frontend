@@ -5,7 +5,7 @@ import CoverPic from "../../Assets/table.jpg";
 import { Avatar } from "@mui/material";
 import { pixToRem } from "../../Utils/pixToRem";
 
-const UserProfile = ({ user, followers, updatedUser, followings }) => {
+const UserProfile = ({ user, followers, followings }) => {
   const classes = useStyles();
 
   return (
@@ -18,12 +18,12 @@ const UserProfile = ({ user, followers, updatedUser, followings }) => {
       </div>
       <div className={classes.top}>
         <img
-          src={!updatedUser?.coverpic ? CoverPic : updatedUser.coverpic}
+          src={!user?.coverpic ? CoverPic : user.coverpic}
           alt="background"
           className={classes.backgroundImage}
         />
         <div className={classes.profilePicWrapper}>
-          <Avatar src={updatedUser?.image} className={classes.profilepic} />
+          <Avatar src={user?.image} className={classes.profilepic} />
         </div>
       </div>
       <div className={classes.bottom}>

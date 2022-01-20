@@ -14,7 +14,10 @@ function App() {
       <ModalManager />
       <Routes>
         <Route path="/" element={user ? <Home /> : <Register />} />
-        <Route path="/profile" element={user ? <Profile /> : <Register />} />
+        <Route
+          path="/profile/:id"
+          element={user ? <Profile /> : <Register />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

@@ -7,16 +7,16 @@ import UserProfile from "../../Components/UserProfile/UserProfile";
 import Grid from "@mui/material/Grid";
 import Post from "../../Components/Post/Post";
 import { Divider } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const classes = useStyles();
-  const [updatedUser, setUpdatedUser] = useState();
-  const user = useSelector((state) => state.auth.user);
+  const [user, setUser] = useState();
   const [followers, setFollowers] = useState();
   const [followings, setFollowings] = useState();
   const token = useSelector((state) => state.auth.token);
   const [userPosts, setUserPosts] = useState([]);
-  const userId = useSelector((state) => state.auth.user._id);
+  const userId = useParams();
 
   useEffect(() => {
     const getUser = async () => {
@@ -25,7 +25,7 @@ const Profile = () => {
           `http://localhost:5000/api/user/${userId}`,
           { headers: { token: `Bearer ${token}` } }
         );
-        setUpdatedUser(res.data);
+        setUser(res.data);
         setFollowers(res.data.followers);
         setFollowings(res.data.followings);
       } catch (err) {
@@ -33,7 +33,7 @@ const Profile = () => {
       }
     };
     getUser();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const getUserPosts = async () => {
@@ -56,7 +56,6 @@ const Profile = () => {
         <UserProfile
           user={user}
           followers={followers}
-          updatedUser={updatedUser}
           followings={followings}
         />
         <Divider styles={{ color: "black" }} />

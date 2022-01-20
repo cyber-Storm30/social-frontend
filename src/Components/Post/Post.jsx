@@ -15,6 +15,7 @@ import Comment from "../Comment/Comment";
 import { pixToRem } from "../../Utils/pixToRem";
 import DoneIcon from "@mui/icons-material/Done";
 import { Divider, IconButton } from "@mui/material";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Post = ({
   title,
@@ -28,6 +29,7 @@ const Post = ({
   postUserId,
 }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState();
@@ -94,6 +96,10 @@ const Post = ({
     }
   };
 
+  const showUserProfile = () => {
+    navigate(`/profile/${postUserId}`);
+  };
+
   return (
     <div className={classes.post}>
       <div style={{ width: "100%", display: "grid", placeItems: "flex-end" }}>
@@ -106,7 +112,9 @@ const Post = ({
         <div className={classes.topLeft}>
           <Avatar className={classes.profilePic} />
           <div className={classes.userDetails}>
-            <p className={classes.title}>{title}</p>
+            <p className={classes.title} onClick={showUserProfile}>
+              {title}
+            </p>
             <p className={classes.subtitle}>{subtitle}</p>
             <p className={classes.time}>{time}</p>
           </div>
