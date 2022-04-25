@@ -45,21 +45,10 @@ const Navbar = () => {
           <p className={classes.iconText}>Home</p>
         </div>
         <div className={classes.iconWrapper}>
-          <GroupAddIcon className={classes.icons} />
-          <p className={classes.iconText}>Connect</p>
-        </div>
-        <div className={classes.iconWrapper}>
-          <BusinessCenterIcon className={classes.icons} />
-          <p className={classes.iconText}>Jobs</p>
-        </div>
-        <div className={classes.iconWrapper}>
           <MessageIcon className={classes.icons} />
-          <p className={classes.iconText}>Messages</p>
+          <p className={classes.iconText}>Chats</p>
         </div>
-        <div className={classes.iconWrapper}>
-          <NotificationsActiveIcon className={classes.icons} />
-          <p className={classes.iconText}>Notification</p>
-        </div>
+        
         <div className={classes.iconWrapper}>
           <Avatar
             className={classes.icons}

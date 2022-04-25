@@ -1,10 +1,11 @@
 import { makeStyles } from "@mui/styles";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { theme } from "../../Utils/breakpoints";
 
 export const useStyles = makeStyles({
   profile: {
-    width: "100%",
-    height: "100vh",
+    width: "100vw",
+    height: "100%",
     backgroundColor: "#ebebeb",
   },
   profileBody: {
@@ -16,7 +17,7 @@ export const useStyles = makeStyles({
   },
   headers: {
     display: "flex",
-    width: pixToRem(1000),
+    width:"100%",
     justifyContent: "center",
     gap: pixToRem(50),
   },
@@ -26,9 +27,20 @@ export const useStyles = makeStyles({
     fontFamily: "'Poppins', sans-serif",
     color: "#363636",
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(12),
+    },
   },
   userPosts: {
     display: "flex",
-    padding: `0 ${pixToRem(100)}`,
+    width:"100%",
+    height:"100%",
+    flexWrap:"wrap",
+    gap:pixToVw(100),
+    alignItems:"flex-start",
+    justifyContent:"center",
+    [theme.breakpoints.down("sm")]: {
+    
+     },
   },
 });

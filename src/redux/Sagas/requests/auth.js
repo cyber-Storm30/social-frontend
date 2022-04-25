@@ -1,7 +1,7 @@
-import axios from "axios";
+import {axiosClient} from "../../../Services/apiClient";
 
 export const requestLogin = ({ email, password }) => {
-  const response = axios.post("http://localhost:5000/api/auth/login", {
+  const response = axiosClient.post("/auth/login", {
     email: email,
     password: password,
   });
@@ -9,7 +9,7 @@ export const requestLogin = ({ email, password }) => {
 };
 
 export const requestSignUp = ({ email, password, firstname, lastname }) => {
-  const response = axios.post("http://localhost:5000/api/auth/register", {
+  const response = axiosClient.post("auth/register", {
     email,
     password,
     firstname,

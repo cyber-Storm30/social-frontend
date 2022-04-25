@@ -1,5 +1,6 @@
 import { makeStyles } from "@mui/styles";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import {theme} from "../../Utils/breakpoints";
 
 export const useStyles = makeStyles({
   comment: {
@@ -9,7 +10,11 @@ export const useStyles = makeStyles({
   },
   avatar: {
     width: pixToVw(40) + "!important",
-    height: pixToVh(40) + "!important",
+    height: pixToVw(40) + "!important",
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(20) + "!important",
+      height: pixToMvw(20) + "!important",
+     },
   },
   commentBody: {
     display: "flex",
@@ -22,10 +27,16 @@ export const useStyles = makeStyles({
     fontSize: pixToRem(16),
     fontWeight: "600",
     fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(12),
+     },
   },
   subtitle: {
     fontSize: pixToRem(14),
     fontWeight: "300",
     fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(10),
+     },
   },
 });

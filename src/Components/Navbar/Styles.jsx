@@ -1,5 +1,6 @@
 import { makeStyles } from "@mui/styles";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvh, pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import {theme} from "../../Utils/breakpoints";
 
 export const useStyles = makeStyles({
   navbar: {
@@ -14,12 +15,19 @@ export const useStyles = makeStyles({
     position: "sticky",
     top: 0,
     zIndex: 999,
+    [theme.breakpoints.down("sm")]: {
+       justifyContent:"space-between",
+       height:"50px",
+     },
   },
   title: {
     fontSize: pixToRem(40),
     fontWeight: "600",
     fontFamily: "'Poppins', sans-serif",
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "28px",
+    },
   },
   navbarLeft: {
     display: "flex",
@@ -50,6 +58,9 @@ export const useStyles = makeStyles({
     paddingLeft: pixToRem(10),
     height: pixToVh(40),
     backgroundColor: "#F2F2F2",
+    [theme.breakpoints.down("sm")]: {
+      display:"none",
+    },
   },
   searchIcon: {
     cursor: "pointer",
@@ -63,14 +74,21 @@ export const useStyles = makeStyles({
     fontSize: 12,
     fontWeight: "300",
     fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize:pixToMvw(12),
+    },
   },
   icons: {
     width: pixToVw(30) + "!important",
-    height: pixToVh(30) + "!important",
+    height: pixToVw(30) + "!important",
     cursor: "pointer !important",
     color: "gray",
     "&:hover": {
-      color: "black",
+      color: "black !important",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(24) + "!important",
+      height: pixToMvw(24) + "!important",
     },
   },
   input: {

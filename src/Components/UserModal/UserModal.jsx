@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../redux/Actions/modal";
 import { useStyles } from "./Styles";
 import { logout } from "../../redux/Actions/auth";
+import {theme} from "../../Utils/breakpoints";
 
 const UserModal = ({ open }) => {
   const classes = useStyles();
@@ -21,6 +22,7 @@ const UserModal = ({ open }) => {
   const handleLogout = () => {
     dispatch(closeModal(close));
     dispatch(logout());
+    navigate("/")
   };
 
   const handleClose = () => {
@@ -44,6 +46,9 @@ const UserModal = ({ open }) => {
     boxShadow: 24,
     p: 2,
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      width:pixToMvw(180),
+     },
   };
   return (
     <>
@@ -56,7 +61,7 @@ const UserModal = ({ open }) => {
         <Box sx={style}>
           <div className={classes.top}>
             <div className={classes.wrapper}>
-              <Avatar />
+            <Avatar className={classes.avatar}/>
               {user ? (
                 <p
                   className={classes.title}

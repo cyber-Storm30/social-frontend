@@ -1,7 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/material/styles";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import {theme} from "../../Utils/breakpoints";
 
 export const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -26,15 +27,27 @@ export const useStyles = makeStyles({
     alignItems: "center",
     gap: pixToRem(5),
   },
+  avatar:{
+    [theme.breakpoints.down("sm")]: {
+      width:pixToMvw(30) + "!important",
+      height:pixToMvw(30) + "!important",
+     },
+  },
   title: {
     fontSize: pixToRem(18),
     fontWeight: "600",
     fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize:pixToMvw(16),
+     },
   },
   subtitle: {
     fontSize: pixToRem(14),
     fontWeight: "400",
     fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize:pixToMvw(12),
+     },
   },
   button: {
     width: "100%",
@@ -52,6 +65,9 @@ export const useStyles = makeStyles({
       border: "2px solid #0072b1",
       backgroundColor: "#dbf2ff",
     },
+    [theme.breakpoints.down("sm")]: {
+      fontSize:pixToMvw(12),
+     },
   },
   options: {
     display: "flex",

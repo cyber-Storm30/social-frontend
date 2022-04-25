@@ -8,18 +8,14 @@ import ModalManager from "./Utils/ModalManager";
 import Profile from "./Pages/Profile/Profile";
 
 function App() {
-  const user = useSelector((state) => state.auth.user);
   return (
     <div className="App">
       <ModalManager />
       <Routes>
-        <Route path="/" element={user ? <Home /> : <Register />} />
-        <Route
-          path="/profile/:id"
-          element={user ? <Profile /> : <Register />}
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <Route path="/home" element={<Home /> }/>
+      <Route path="/profile/:id"  element={<Profile /> } />
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );

@@ -4,7 +4,7 @@ import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
 export const useStyles = makeStyles({
   home: {
     width: "100%",
-    height: "100vh",
+    height: "100%",
     backgroundColor: "#ebebeb",
   },
   homebody: {

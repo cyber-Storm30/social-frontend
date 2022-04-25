@@ -1,5 +1,6 @@
 import { makeStyles } from "@mui/styles";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvh, pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import {theme} from "../../Utils/breakpoints"
 
 export const useStyles = makeStyles({
   post: {
@@ -9,6 +10,9 @@ export const useStyles = makeStyles({
     padding: `${pixToRem(10)} ${pixToRem(15)}`,
     backgroundColor: "white",
     borderRadius: pixToRem(7),
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(400),
+     },
   },
   top: {
     display: "flex",
@@ -20,64 +24,52 @@ export const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     gap: pixToRem(5),
+    [theme.breakpoints.down("sm")]: {
+      gap: pixToMvw(5),
+     },
   },
   topRight: {
     display: "flex",
     alignItems: "center",
     gap: pixToRem(15),
   },
-  followButton: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: `${pixToRem(0)} ${pixToRem(10)}`,
-    fontSize: pixToRem(17),
-    fontWeight: "600",
-    color: "#0072b1",
-    fontFamily: "'Poppins', sans-serif",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "none",
-    outline: "none",
-    backgroundColor: "white",
-    "&:hover": {
-      backgroundColor: "#d9f1ff",
-    },
-  },
-  unfollowButton: {
-    display: "flex",
-    alignItems: "center",
-    gap: pixToRem(5),
-    padding: `${pixToRem(0)} ${pixToRem(10)}`,
-    fontSize: pixToRem(14),
-    fontWeight: "600",
-    color: "#616161",
-    fontFamily: "'Poppins', sans-serif",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "none",
-    outline: "none",
-    backgroundColor: "#dedede",
-  },
   profilePic: {
     width: pixToVw(45) + "!important",
-    height: pixToVh(45) + "!important",
+    height: pixToVw(45) + "!important",
     cursor: "pointer !important",
     color: "gray",
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(40) + "!important",
+      height: pixToMvw(40) + "!important",
+     },
+  },
+  userDetails:{
+    display:"flex",
+    flexDirection:"column",
+    justifyContent:"center",
   },
   title: {
     fontSize: pixToRem(14),
     fontWeight: "600",
     fontFamily: "'Poppins', sans-serif",
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(14),
+     },
   },
   subtitle: {
     fontSize: pixToRem(12),
     color: "#141414 !important",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(12),
+     },
   },
   time: {
     fontSize: pixToRem(10),
     color: "#141414",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(8),
+     },
   },
   body: {
     display: "flex",
@@ -88,6 +80,12 @@ export const useStyles = makeStyles({
   desc: {
     width: "100%",
     padding: `${pixToRem(10)} 0`,
+    fontSize: pixToVw(20),
+    fontWeight: "400",
+    fontFamily: "'Poppins', sans-serif",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(12),
+     },
   },
   postImage: {
     width: "100%",
@@ -109,13 +107,20 @@ export const useStyles = makeStyles({
   },
   likeIcon: {
     width: pixToVw(14) + "!important",
-    height: pixToVh(14) + "!important",
+    height: pixToVw(14) + "!important",
     cursor: "pointer !important",
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(16) + "!important",
+      height: pixToMvw(16) + "!important",
+     },
   },
   likesText: {
     fontSize: pixToRem(13),
     color: "#141414",
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvw(12),
+     },
   },
   bottom: {
     display: "flex",
@@ -135,13 +140,24 @@ export const useStyles = makeStyles({
     alignItems: "center",
     gap: pixToRem(2),
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      alignItems:"center",
+      gap:pixToMvw(2),
+     },
   },
   bottomIcon: {
     width: pixToVw(24) + "!important",
-    height: pixToVh(24) + "!important",
+    height: pixToVw(24) + "!important",
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(18) + "!important",
+    height: pixToMvw(18) + "!important",
+     },
   },
   buttonText: {
     fontSize: pixToRem(15),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: pixToMvh(8),
+     },
   },
   commentSectionWrapper: {
     display: "flex",
@@ -151,27 +167,40 @@ export const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     gap: pixToRem(10),
+    // backgroundColor:"Red",
+    alignItems:"center",
   },
 
   commentIcon: {
     cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      width: pixToMvw(18) + "!important",
+      height: pixToMvw(18) + "!important",
+     },
   },
-  imputWrapper: {
+  inputWrapper: {
+    width:pixToVw(420),
+    height:pixToVw(55),
     display: "flex",
     alignItems: "center",
     border: "1px solid #cccccc",
-    padding: `0 ${pixToRem(10)}`,
+    padding: `0 ${pixToRem(22)}`,
     borderRadius: "25px",
     gap: pixToRem(10),
+    [theme.breakpoints.down("sm")]: {
+      width:pixToMvw(320),
+      height:pixToMvw(45),
+     },
   },
   input: {
     width: "100%",
-    height: pixToVh(40),
+    height: "100%",
     outline: "none",
     border: "none",
+    borderRadius: "25px",
   },
   button: {
-    width: pixToVw(55),
+    width: pixToVw(75),
     height: pixToVh(30),
     outline: "none",
     border: "none",
@@ -180,6 +209,13 @@ export const useStyles = makeStyles({
     color: "white",
     fontWeight: "500",
     cursor: "pointer",
+    margin:pixToVw(10),
+    [theme.breakpoints.down("sm")]: {
+      width:pixToMvw(60),
+      height:pixToMvw(35),
+      borderRadius: pixToMvw(25),
+      margin:pixToMvw(7),
+     },
   },
   disButton: {
     display: "none",

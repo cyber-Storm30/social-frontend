@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ReactComponent as Image } from "../../Assets/google.svg";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,7 +9,8 @@ import {
   loginSuccess,
 } from "../../redux/Actions/auth";
 import { useStyles } from "./Styles";
-import axios from "axios";
+import { axiosClient } from "../../Services/apiClient";
+import { pixToRem, pixToVw } from "../../Utils/pixToRem";
 
 const Login = () => {
   const classes = useStyles();
@@ -17,13 +18,25 @@ const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error,setError] = useState("")
   const user = useSelector((state) => state.auth.user);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
+    dispatch(loginStart())
     try {
-      dispatch(loginStart({ email, password }));
-      navigate("/");
+      const res = await axiosClient.post("/auth/login", {
+        email: email,
+        password: password,
+      });
+      console.log(res)
+      if(res.data.status == true){
+        dispatch(loginSuccess(res.data))
+      }
+      else{
+        setError(res.data.message)
+      }
     } catch (err) {
+      dispatch(loginFailure())
       console.log(err);
     }
   };
@@ -55,9 +68,9 @@ const Login = () => {
           }}
         />
       </div>
-
+     {error && <p className={classes.errorText}
+    >{error}</p>}
       <p className={classes.text}>Forgot Password?</p>
-
       <div className={classes.buttonWrapper}>
         <button className={classes.button} onClick={handleSignIn}>
           Sign in
@@ -65,10 +78,9 @@ const Login = () => {
       </div>
       <Divider />
 
-      <div className={classes.buttonWrapper}>
+      <div className={classes.buttonWrapper} onClick = {()=>{navigate("/register")}}>
         <button className={classes.googleButton}>
-          <Image src={Image} className={classes.image} />
-          <p>sign in with Google</p>
+          <p>New to Social? Sign up</p>
         </button>
       </div>
     </div>

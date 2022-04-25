@@ -5,16 +5,17 @@ import { useStyles } from "./Styles";
 import { ReactComponent as Image } from "../../Assets/google.svg";
 import { useNavigate } from "react-router-dom";
 import { signupStart } from "../../redux/Actions/auth";
+import { axiosClient } from "../../Services/apiClient";
 
 const RegisterComponent = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [toogle, setToogle] = useState(false);
+  const [success,setSuccess] = useState(false)
+
   const navigate = useNavigate();
 
   const handleToogle = () => {
@@ -25,13 +26,26 @@ const RegisterComponent = () => {
     }
   };
 
-  const handleRegister = () => {
-    dispatch(signupStart({ email, password, firstname, lastname }));
-    navigate("/login");
+  const handleRegister = async () => {
+    try {
+      const res = await axiosClient.post("/auth/register", {
+        firstname:firstname,
+        lastname:lastname,
+        email:email,
+        password:password,
+      });
+      if(res){
+         setSuccess(true)
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className={classes.register}>
+<>
+    {  !success ?  <div className={classes.register}>
+  
       {!toogle ? (
         <div className={classes.inputWrapper}>
           <p className={classes.inputText}>Email or phone number</p>
@@ -76,7 +90,7 @@ const RegisterComponent = () => {
       )}
       {!toogle && (
         <p className={classes.text}>
-          By clicking Agree and Join, you agree to the LinkedIn User Agreement,
+          By clicking Agree and Join, you agree to the Social User Agreement,
           Privacy Policy, and Cookie Policy.
         </p>
       )}
@@ -110,14 +124,20 @@ const RegisterComponent = () => {
           <span
             style={{ color: " #0072b1", cursor: "pointer" }}
             onClick={() => {
-              navigate("/login");
+              navigate("/");
             }}
           >
             Sign in
           </span>
         </p>
       )}
-    </div>
+    
+    </div>:
+    <div className={classes.loginWrapper}>
+      <h1 className={classes.loginText}>You have Successfully registed. Please sign in to continue</h1>
+      <button className = {classes.loginButton} onClick = {()=>{navigate("/")}}>Login In</button>
+      </div>}
+      </>
   );
 };
 

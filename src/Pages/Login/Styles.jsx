@@ -6,7 +6,7 @@ export const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#ebebeb",
-    height: "100vh",
+    maxHeight: "100vh",
     paddingTop: pixToRem(30),
     paddingLeft: pixToRem(50),
     overflowY: "hidden",

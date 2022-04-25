@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LightTooltip, useStyles } from "./Styles";
 import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ClearIcon from "@mui/icons-material/Clear";
-import { pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import { pixToMvh, pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
@@ -22,14 +22,26 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "../../firebase/index";
+import { axiosClient } from "../../Services/apiClient";
+import { theme } from "../../Utils/breakpoints";
 
 const Write = ({ open }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [close, setClose] = useState(open);
+  const [close, setClose] = useState(false);
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [disabled,setDisabled] = useState(true)
+
+  useEffect(()=>{
+    if(!desc){
+    setDisabled(true)
+    }
+    else{
+      setDisabled(false)
+    }
+  },[desc])
 
   const handleClose = async () => {
     setClose(false);
@@ -71,7 +83,7 @@ const Write = ({ open }) => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log(downloadURL);
             try {
-              axios.post("http://localhost:5000/api/posts/createpost", {
+              axiosClient.post("/posts/createpost", {
                 username: `${user.firstname} ${user.lastname}`,
                 userId: user._id,
                 body: desc,
@@ -88,50 +100,38 @@ const Write = ({ open }) => {
     } else {
       dispatch(closeModal(close));
       try {
-        await axios.post("http://localhost:5000/api/posts/createpost", newPost);
+        await axiosClient.post("/posts/createpost", newPost);
       } catch (err) {
         window.alert("Unable to upload try again !!!");
       }
     }
   };
-  const style = {
-    display: "flex",
-    flexDirection: "column",
-    gap: pixToRem(10),
-    position: "sticky",
-    top: pixToVh(70),
-    left: pixToVw(700),
-    width: pixToVw(500),
-    bgcolor: "background.paper",
-    border: "none",
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 2,
-  };
   return (
     <>
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className = {classes.modal}
       >
-        <Box sx={style}>
+        <div className={classes.modalContent}>
           <div className={classes.top}>
-            <h3>Create Post</h3>
-            <ClearIcon onClick={handleClose} style={{ cursor: "pointer" }} />
+            <h3 className={classes.heading}>Create Post</h3>
+            <ClearIcon onClick={handleClose} className = {classes.close} />
           </div>
           <Divider />
           <div className={classes.userDetails}>
-            <Avatar />
-            <p>{`${user.firstname} ${user.lastname}`}</p>
+            <Avatar className={classes.avatar}/>
+            <p className={classes.username}>{`${user.firstname} ${user.lastname}`}</p>
           </div>
           <textarea
             className={classes.input}
             placeholder="Start writing your post"
             onChange={(e) => setDesc(e.target.value)}
           />
-          {file && <img src={URL.createObjectURL(file)} />}
+          <div className={classes.inputImageWrapper}>
+          {file && <img src={URL.createObjectURL(file)} className = {classes.inputImage}/>}
+          </div>
           <div className={classes.bottom}>
             <div className={classes.icons}>
               <LightTooltip title="Add a photo" placement="top">
@@ -140,6 +140,7 @@ const Write = ({ open }) => {
                     <InsertPhotoIcon
                       color="action"
                       style={{ cursor: "pointer" }}
+                      className = {classes.icon}
                     />
                   </label>
                 </IconButton>
@@ -158,6 +159,7 @@ const Write = ({ open }) => {
                     <PlayCircleIcon
                       color="action"
                       style={{ cursor: "pointer" }}
+                      className = {classes.icon}
                     />
                   </label>
                 </IconButton>
@@ -166,7 +168,7 @@ const Write = ({ open }) => {
               <LightTooltip title="Add a document" placement="top">
                 <IconButton>
                   <label htmlFor="documentInput">
-                    <NotesIcon color="action" style={{ cursor: "pointer" }} />
+                    <NotesIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
                   </label>
                 </IconButton>
               </LightTooltip>
@@ -177,17 +179,18 @@ const Write = ({ open }) => {
               />
               <LightTooltip title="Add an event" placement="top">
                 <IconButton>
-                  <EventIcon color="action" style={{ cursor: "pointer" }} />
+                  <EventIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
                 </IconButton>
               </LightTooltip>
               <input type="file" id="photoInput" style={{ display: "none" }} />
               <LightTooltip title="Create a poll" placement="top">
                 <IconButton>
-                  <EqualizerIcon color="action" style={{ cursor: "pointer" }} />
+                  <EqualizerIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
                 </IconButton>
               </LightTooltip>
             </div>
             <button
+              disabled = {disabled}
               className={
                 desc ? classes.button : classes.button + ` ${classes.disButton}`
               }
@@ -196,7 +199,7 @@ const Write = ({ open }) => {
               Post
             </button>
           </div>
-        </Box>
+        </div>
       </Modal>
     </>
   );

@@ -28,19 +28,19 @@ const Topbar = () => {
       </div>
       <div className={classes.bottom}>
         <div className={classes.icon}>
-          <InsertPhotoIcon color="primary" />
+          <InsertPhotoIcon color="primary" className={classes.icons}/>
           <p className={classes.iconText}>Photo</p>
         </div>
         <div className={classes.icon}>
-          <PlayCircleIcon color="success" />
+          <PlayCircleIcon color="success" className={classes.icons}/>
           <p className={classes.iconText}>Video</p>
         </div>
         <div className={classes.icon}>
-          <EventIcon color="success" />
+          <EventIcon color="success" className={classes.icons}/>
           <p className={classes.iconText}>Event</p>
         </div>
         <div className={classes.icon}>
-          <NotesIcon color="success" />
+          <NotesIcon color="success" className={classes.icons}/>
           <p className={classes.iconText}>Write Article</p>
         </div>
       </div>

@@ -6,8 +6,8 @@ import { FETCH_POST } from "../Actions/post";
 
 export function* watcherSaga() {
   yield all([
-    takeLatest(LOGIN_START, handleLogin),
-    takeLatest(SIGNUP_START, handleSignup),
-    takeLatest(FETCH_POST, handleGetPost),
+    // takeLatest(LOGIN_START, handleLogin),
+    // takeLatest(SIGNUP_START, handleSignup),
+    // takeLatest(FETCH_POST, handleGetPost),
   ]);
 }

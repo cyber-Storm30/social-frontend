@@ -8,6 +8,9 @@ import Grid from "@mui/material/Grid";
 import Post from "../../Components/Post/Post";
 import { Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
+import {useAuth} from "../../Hooks/useAuth"
+import { Navigate } from "react-router-dom";
+import { axiosClient } from "../../Services/apiClient";
 
 const Profile = () => {
   const classes = useStyles();
@@ -21,10 +24,7 @@ const Profile = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/user/${userId}`,
-          { headers: { token: `Bearer ${token}` } }
-        );
+        const res = await axiosClient.get(`/user/${userId.id}`)
         setUser(res.data);
         setFollowers(res.data.followers);
         setFollowings(res.data.followings);
@@ -33,13 +33,13 @@ const Profile = () => {
       }
     };
     getUser();
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const getUserPosts = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/posts?userId=${user._id}`
+        const res = await axiosClient.get(
+          `/posts?userId=${userId.id}`
         );
         setUserPosts(res.data.data);
       } catch (err) {
@@ -48,6 +48,13 @@ const Profile = () => {
     };
     getUserPosts();
   }, []);
+  
+    
+
+  if(useAuth() === false){
+    return <Navigate to = "/" />
+  }
+
 
   return (
     <div className={classes.profile}>
@@ -64,11 +71,11 @@ const Profile = () => {
           <p className={classes.headerTags}>Saved</p>
           <p className={classes.headerTags}>Tagged</p>
         </div>
-        <Grid container spacing={2} className={classes.userPosts}>
+        <div className={classes.userPosts}>
           {userPosts
-            ?.map((post) => (
-              <Grid item xs={4}>
+            ?.map((post,id) => (
                 <Post
+                  key = {id}
                   title={post.username}
                   subtitle={post.title}
                   time={new Date(post.createdAt).toDateString()}
@@ -79,10 +86,9 @@ const Profile = () => {
                   postId={post._id}
                   postUserId={post.userId}
                 />
-              </Grid>
             ))
             .reverse()}
-        </Grid>
+         </div>
       </div>
     </div>
   );

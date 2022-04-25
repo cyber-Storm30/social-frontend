@@ -16,6 +16,7 @@ import { pixToRem } from "../../Utils/pixToRem";
 import DoneIcon from "@mui/icons-material/Done";
 import { Divider, IconButton } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
+import { axiosClient } from "../../Services/apiClient";
 
 const Post = ({
   title,
@@ -36,12 +37,10 @@ const Post = ({
   const [localComments, setLocalComments] = useState([]);
   const [localComment, setLocalComment] = useState("");
   const [like, setLike] = useState(likes.length);
-  const [followings, setFollowings] = useState();
-  const [isfollowed, setIsFollowed] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.user._id);
-  const [updatedUser, setUpdatedUser] = useState();
+  // const [updatedUser, setUpdatedUser] = useState();
 
   const handleCommentShow = () => {
     setShowComment(!showComment);
@@ -51,29 +50,24 @@ const Post = ({
     setIsLiked(likes.includes(user._id));
   }, [user._id]);
 
-  useEffect(() => {
-    setIsFollowed(followings?.includes(postUserId));
-  }, []);
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/user/${userId}`,
-          { headers: { token: `Bearer ${token}` } }
-        );
-        setUpdatedUser(res.data);
-        setFollowings(res.data.followings);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     try {
+  //       const res = await axiosClient.get(`/user/${userId}`,
+  //         { headers: { token: `Bearer ${token}` } }
+  //       );
+  //       setUpdatedUser(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getUser();
+  // }, []);
 
   const handleLike = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/posts/${postId}/like`, {
+      await axiosClient.put(`/posts/${postId}/like`, {
         userId: user._id,
       });
     } catch (err) {
@@ -86,11 +80,13 @@ const Post = ({
   const handleSubmit = async () => {
     setLocalComments((prevState) => [...prevState, localComment]);
     try {
-      await axios.put(`http://localhost:5000/api/posts/${postId}/comment`, {
+      await axiosClient.put(`/posts/${postId}/comment`, {
         username: `${user.firstname} ${user.lastname}`,
         comment,
       });
       setComment("");
+      setLocalComment("");
+    
     } catch (err) {
       console.log(err);
     }
@@ -100,6 +96,10 @@ const Post = ({
     navigate(`/profile/${postUserId}`);
   };
 
+
+
+
+  
   return (
     <div className={classes.post}>
       <div style={{ width: "100%", display: "grid", placeItems: "flex-end" }}>
@@ -119,18 +119,6 @@ const Post = ({
             <p className={classes.time}>{time}</p>
           </div>
         </div>
-        {postUserId != user._id && (
-          <div className={classes.topRight}>
-            {!isfollowed ? (
-              <button className={classes.followButton}>+ Follow</button>
-            ) : (
-              <button className={classes.unfollowButton}>
-                <DoneIcon style={{ size: `${pixToRem(14)}!important` }} />
-                Following
-              </button>
-            )}
-          </div>
-        )}
       </div>
       <div className={classes.body}>
         <p className={classes.desc}>{desc}</p>
@@ -172,15 +160,7 @@ const Post = ({
           <div className={classes.commentSectionWrapper}>
             <div className={classes.commentSection}>
               <Avatar className={classes.profilePic} />
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                  gap: pixToRem(10),
-                }}
-              >
-                <div className={classes.imputWrapper}>
+                <div className={classes.inputWrapper}>
                   <input
                     className={classes.input}
                     placeholder="Add a comment"
@@ -194,6 +174,7 @@ const Post = ({
                   />
                   <CollectionsOutlinedIcon className={classes.commentIcon} />
                 </div>
+                </div>
                 <button
                   className={
                     comment
@@ -204,11 +185,11 @@ const Post = ({
                 >
                   Post
                 </button>
-              </div>
-            </div>
+            
             <div>
-              {localComments?.map((lcom) => (
+              {localComments?.map((lcom,id) => (
                 <Comment
+                  key = {id}
                   username={`${user.firstname} ${user.lastname}`}
                   comment={lcom}
                 />
@@ -216,8 +197,8 @@ const Post = ({
             </div>
             <div>
               {comments
-                ?.map((com) => (
-                  <Comment username={com.username} comment={com.comment} />
+                ?.map((com,id) => (
+                  <Comment key = {id} username={com.username} comment={com.comment} />
                 ))
                 .reverse()}
             </div>
