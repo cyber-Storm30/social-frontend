@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ClearIcon from "@mui/icons-material/Clear";
-import { pixToMvh, pixToMvw, pixToRem, pixToVh, pixToVw } from "../../Utils/pixToRem";
+import {
+  pixToMvh,
+  pixToMvw,
+  pixToRem,
+  pixToVh,
+  pixToVw,
+} from "../../Utils/pixToRem";
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
@@ -32,16 +38,15 @@ const Write = ({ open }) => {
   const [close, setClose] = useState(false);
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const [disabled,setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
 
-  useEffect(()=>{
-    if(!desc){
-    setDisabled(true)
+  useEffect(() => {
+    if (!desc) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
     }
-    else{
-      setDisabled(false)
-    }
-  },[desc])
+  }, [desc]);
 
   const handleClose = async () => {
     setClose(false);
@@ -112,17 +117,19 @@ const Write = ({ open }) => {
         open={open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className = {classes.modal}
+        className={classes.modal}
       >
         <div className={classes.modalContent}>
           <div className={classes.top}>
             <h3 className={classes.heading}>Create Post</h3>
-            <ClearIcon onClick={handleClose} className = {classes.close} />
+            <ClearIcon onClick={handleClose} className={classes.close} />
           </div>
           <Divider />
           <div className={classes.userDetails}>
-            <Avatar className={classes.avatar}/>
-            <p className={classes.username}>{`${user.firstname} ${user.lastname}`}</p>
+            <Avatar className={classes.avatar} />
+            <p
+              className={classes.username}
+            >{`${user.firstname} ${user.lastname}`}</p>
           </div>
           <textarea
             className={classes.input}
@@ -130,7 +137,12 @@ const Write = ({ open }) => {
             onChange={(e) => setDesc(e.target.value)}
           />
           <div className={classes.inputImageWrapper}>
-          {file && <img src={URL.createObjectURL(file)} className = {classes.inputImage}/>}
+            {file && (
+              <img
+                src={URL.createObjectURL(file)}
+                className={classes.inputImage}
+              />
+            )}
           </div>
           <div className={classes.bottom}>
             <div className={classes.icons}>
@@ -140,7 +152,7 @@ const Write = ({ open }) => {
                     <InsertPhotoIcon
                       color="action"
                       style={{ cursor: "pointer" }}
-                      className = {classes.icon}
+                      className={classes.icon}
                     />
                   </label>
                 </IconButton>
@@ -159,7 +171,7 @@ const Write = ({ open }) => {
                     <PlayCircleIcon
                       color="action"
                       style={{ cursor: "pointer" }}
-                      className = {classes.icon}
+                      className={classes.icon}
                     />
                   </label>
                 </IconButton>
@@ -168,7 +180,11 @@ const Write = ({ open }) => {
               <LightTooltip title="Add a document" placement="top">
                 <IconButton>
                   <label htmlFor="documentInput">
-                    <NotesIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
+                    <NotesIcon
+                      color="action"
+                      style={{ cursor: "pointer" }}
+                      className={classes.icon}
+                    />
                   </label>
                 </IconButton>
               </LightTooltip>
@@ -179,18 +195,26 @@ const Write = ({ open }) => {
               />
               <LightTooltip title="Add an event" placement="top">
                 <IconButton>
-                  <EventIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
+                  <EventIcon
+                    color="action"
+                    style={{ cursor: "pointer" }}
+                    className={classes.icon}
+                  />
                 </IconButton>
               </LightTooltip>
               <input type="file" id="photoInput" style={{ display: "none" }} />
               <LightTooltip title="Create a poll" placement="top">
                 <IconButton>
-                  <EqualizerIcon color="action" style={{ cursor: "pointer" }}   className = {classes.icon}/>
+                  <EqualizerIcon
+                    color="action"
+                    style={{ cursor: "pointer" }}
+                    className={classes.icon}
+                  />
                 </IconButton>
               </LightTooltip>
             </div>
             <button
-              disabled = {disabled}
+              disabled={disabled}
               className={
                 desc ? classes.button : classes.button + ` ${classes.disButton}`
               }
