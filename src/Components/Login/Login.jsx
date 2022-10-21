@@ -11,6 +11,8 @@ import {
 import { useStyles } from "./Styles";
 import { axiosClient } from "../../Services/apiClient";
 import { pixToRem, pixToVw } from "../../Utils/pixToRem";
+import CircularProgress from "@mui/material/CircularProgress";
+import Loader from "../../shared/Loader";
 
 const Login = () => {
   const classes = useStyles();
@@ -18,25 +20,29 @@ const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,setError] = useState("")
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
   const handleSignIn = async () => {
-    dispatch(loginStart())
+    dispatch(loginStart());
+    setLoading(true);
     try {
       const res = await axiosClient.post("/auth/login", {
         email: email,
         password: password,
       });
-      console.log(res)
-      if(res.data.status == true){
-        dispatch(loginSuccess(res.data))
-      }
-      else{
-        setError(res.data.message)
+      console.log(res);
+      if (res.data.status == true) {
+        dispatch(loginSuccess(res.data));
+        setLoading(false);
+      } else {
+        setError(res.data.message);
+        setLoading(false);
       }
     } catch (err) {
-      dispatch(loginFailure())
+      dispatch(loginFailure());
+      setLoading(false);
       console.log(err);
     }
   };
@@ -68,17 +74,34 @@ const Login = () => {
           }}
         />
       </div>
-     {error && <p className={classes.errorText}
-    >{error}</p>}
+      {error && <p className={classes.errorText}>{error}</p>}
       <p className={classes.text}>Forgot Password?</p>
+
       <div className={classes.buttonWrapper}>
-        <button className={classes.button} onClick={handleSignIn}>
-          Sign in
-        </button>
+        {loading ? (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress sx={{ color: "#0072b1" }} />
+          </div>
+        ) : (
+          <button className={classes.button} onClick={handleSignIn}>
+            Sign in
+          </button>
+        )}
       </div>
       <Divider />
 
-      <div className={classes.buttonWrapper} onClick = {()=>{navigate("/register")}}>
+      <div
+        className={classes.buttonWrapper}
+        onClick={() => {
+          navigate("/register");
+        }}
+      >
         <button className={classes.googleButton}>
           <p>New to Social? Sign up</p>
         </button>

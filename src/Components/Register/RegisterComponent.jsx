@@ -1,4 +1,4 @@
-import { Divider } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useStyles } from "./Styles";
@@ -13,8 +13,9 @@ const RegisterComponent = () => {
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [toogle, setToogle] = useState(false);
-  const [success,setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,117 +28,142 @@ const RegisterComponent = () => {
   };
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
       const res = await axiosClient.post("/auth/register", {
-        firstname:firstname,
-        lastname:lastname,
-        email:email,
-        password:password,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        password: password,
       });
-      if(res){
-         setSuccess(true)
+      if (res) {
+        setSuccess(true);
       }
+      setLoading(false);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
   return (
-<>
-    {  !success ?  <div className={classes.register}>
-  
-      {!toogle ? (
-        <div className={classes.inputWrapper}>
-          <p className={classes.inputText}>Email or phone number</p>
-          <input
-            type="email"
-            value={email}
-            className={classes.input}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <>
+      {!success ? (
+        <div className={classes.register}>
+          {!toogle ? (
+            <div className={classes.inputWrapper}>
+              <p className={classes.inputText}>Email or phone number</p>
+              <input
+                type="email"
+                value={email}
+                className={classes.input}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className={classes.inputWrapper}>
+              <p className={classes.inputText}>First Name</p>
+              <input
+                type="text"
+                className={classes.input}
+                value={firstname}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+          )}
+          {!toogle ? (
+            <div className={classes.inputWrapper}>
+              <p className={classes.inputText}>Password(6 or more character)</p>
+              <input
+                className={classes.input}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className={classes.inputWrapper}>
+              <p className={classes.inputText}>Last Name</p>
+              <input
+                type="text"
+                className={classes.input}
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          )}
+          {!toogle && (
+            <p className={classes.text}>
+              By clicking Agree and Join, you agree to the Social User
+              Agreement, Privacy Policy, and Cookie Policy.
+            </p>
+          )}
+          {loading ? (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress sx={{ color: "#0072b1" }} />
+            </div>
+          ) : (
+            <div className={classes.buttonWrapper}>
+              {!toogle ? (
+                <button className={classes.button} onClick={handleToogle}>
+                  Agree and join
+                </button>
+              ) : (
+                <button
+                  className={classes.button}
+                  onClick={handleToogle}
+                  onClick={handleRegister}
+                >
+                  continue
+                </button>
+              )}
+            </div>
+          )}
+          {!toogle && <Divider />}
+          {!toogle && (
+            <div className={classes.buttonWrapper}>
+              <button className={classes.googleButton}>
+                <Image src={Image} className={classes.image} />
+                <p>join with Google</p>
+              </button>
+            </div>
+          )}
+          {!toogle && (
+            <p className={classes.signText}>
+              Already on Social?
+              <span
+                style={{ color: " #0072b1", cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Sign in
+              </span>
+            </p>
+          )}
         </div>
       ) : (
-        <div className={classes.inputWrapper}>
-          <p className={classes.inputText}>First Name</p>
-          <input
-            type="text"
-            className={classes.input}
-            value={firstname}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-      )}
-      {!toogle ? (
-        <div className={classes.inputWrapper}>
-          <p className={classes.inputText}>Password(6 or more character)</p>
-          <input
-            className={classes.input}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      ) : (
-        <div className={classes.inputWrapper}>
-          <p className={classes.inputText}>Last Name</p>
-          <input
-            type="text"
-            className={classes.input}
-            value={lastname}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-      )}
-      {!toogle && (
-        <p className={classes.text}>
-          By clicking Agree and Join, you agree to the Social User Agreement,
-          Privacy Policy, and Cookie Policy.
-        </p>
-      )}
-      <div className={classes.buttonWrapper}>
-        {!toogle ? (
-          <button className={classes.button} onClick={handleToogle}>
-            Agree and join
-          </button>
-        ) : (
+        <div className={classes.loginWrapper}>
+          <h1 className={classes.loginText}>
+            You have Successfully registed. Please sign in to continue
+          </h1>
           <button
-            className={classes.button}
-            onClick={handleToogle}
-            onClick={handleRegister}
-          >
-            continue
-          </button>
-        )}
-      </div>
-      {!toogle && <Divider />}
-      {!toogle && (
-        <div className={classes.buttonWrapper}>
-          <button className={classes.googleButton}>
-            <Image src={Image} className={classes.image} />
-            <p>join with Google</p>
-          </button>
-        </div>
-      )}
-      {!toogle && (
-        <p className={classes.signText}>
-          Already on Social?
-          <span
-            style={{ color: " #0072b1", cursor: "pointer" }}
+            className={classes.loginButton}
             onClick={() => {
               navigate("/");
             }}
           >
-            Sign in
-          </span>
-        </p>
+            Login In
+          </button>
+        </div>
       )}
-    
-    </div>:
-    <div className={classes.loginWrapper}>
-      <h1 className={classes.loginText}>You have Successfully registed. Please sign in to continue</h1>
-      <button className = {classes.loginButton} onClick = {()=>{navigate("/")}}>Login In</button>
-      </div>}
-      </>
+    </>
   );
 };
 

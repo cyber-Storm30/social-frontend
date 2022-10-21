@@ -1,4 +1,4 @@
-import {axiosClient} from "../../../Services/apiClient";
+import { axiosClient } from "../../../Services/apiClient";
 
 export const requestLogin = ({ email, password }) => {
   const response = axiosClient.post("/auth/login", {
