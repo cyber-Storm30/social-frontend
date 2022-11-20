@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../redux/Actions/modal";
 import { useStyles } from "./Styles";
 import { logout } from "../../redux/Actions/auth";
-import {theme} from "../../Utils/breakpoints";
+import { theme } from "../../Utils/breakpoints";
 
 const UserModal = ({ open }) => {
   const classes = useStyles();
@@ -22,7 +22,7 @@ const UserModal = ({ open }) => {
   const handleLogout = () => {
     dispatch(closeModal(close));
     dispatch(logout());
-    navigate("/")
+    navigate("/");
   };
 
   const handleClose = () => {
@@ -47,8 +47,8 @@ const UserModal = ({ open }) => {
     p: 2,
     cursor: "pointer",
     [theme.breakpoints.down("sm")]: {
-      width:pixToMvw(180),
-     },
+      width: pixToMvw(180),
+    },
   };
   return (
     <>
@@ -61,7 +61,7 @@ const UserModal = ({ open }) => {
         <Box sx={style}>
           <div className={classes.top}>
             <div className={classes.wrapper}>
-            <Avatar className={classes.avatar}/>
+              <Avatar className={classes.avatar} />
               {user ? (
                 <p
                   className={classes.title}
@@ -83,7 +83,14 @@ const UserModal = ({ open }) => {
           <div className={classes.options}>
             <p className={classes.title}>Account</p>
             <p className={classes.subtitle}>Settings and Privacy</p>
-            <p className={classes.subtitle}>Help</p>
+            <p
+              className={classes.subtitle}
+              onClick={() => {
+                navigate(`/chat`);
+              }}
+            >
+              Chat
+            </p>
             <p className={classes.subtitle}>Language</p>
           </div>
           <Divider />

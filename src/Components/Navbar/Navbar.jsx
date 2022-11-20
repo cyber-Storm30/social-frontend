@@ -44,11 +44,16 @@ const Navbar = () => {
           <HomeIcon className={classes.icons} />
           <p className={classes.iconText}>Home</p>
         </div>
-        <div className={classes.iconWrapper}>
+        <div
+          className={classes.iconWrapper}
+          onClick={() => {
+            navigate("/chat");
+          }}
+        >
           <MessageIcon className={classes.icons} />
           <p className={classes.iconText}>Chats</p>
         </div>
-        
+
         <div className={classes.iconWrapper}>
           <Avatar
             className={classes.icons}
